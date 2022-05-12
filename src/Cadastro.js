@@ -21,6 +21,7 @@ const Title = styled.h1`
 
   color: black;
   margin-bottom:12px;
+  margin-top:20px;
 `;
 
 const SubTitle = styled.h2`
@@ -34,12 +35,14 @@ const SubTitle = styled.h2`
 `;
 
 const InputBox = styled.input`
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  border: solid;
-  border-radius : 15px;
-  margin-bottom:15px;
+display: block;
+margin-right: auto;
+margin-left: auto;
+border: solid;
+border-radius : 15px;
+margin-bottom:15px;
+padding-top:10px;
+padding-bottom : 10px;
 `;
 
 const SubmitCadastro = styled.button`
@@ -50,7 +53,11 @@ const SubmitCadastro = styled.button`
   border-radius : 15px;
   margin-bottom:15px;
   background-color : #41a8f5;
-  padding : 7px
+  padding-top : 10px;
+  padding-bottom : 10px;
+
+  width:45%;
+
 `;
 
 const Obs = styled.p`
@@ -82,7 +89,10 @@ class Cadastro extends React.Component {
     <InputBox placeholder = "Data de nascimento"></InputBox>
     <InputBox placeholder = "Endereço completo"></InputBox>
     <SubmitCadastro>Cadastrar</SubmitCadastro>
-    <Obs> Já tem uma conta? <Link>Clique Aqui ! </Link></Obs>
+    <br>
+    </br>
+    <Obs> Já tem uma conta? <Link href='/login'>Clique Aqui ! </Link></Obs>
+    
 
     
     

@@ -66,7 +66,7 @@ class Login extends React.Component {
     <InputBox placeholder='Usuário/E-mail'></InputBox>
     <InputBox type="password" placeholder='Senha'></InputBox>
     <BtnCadastro preto>Entrar</BtnCadastro>
-    <Obs>Ainda não possui conta? <Link>Criar agora !</Link></Obs>
+    <Obs>Ainda não possui conta? <Link href='/cadastro'>Criar agora !</Link></Obs>
     <Obs>Ou</Obs>
     <Obs>Entrar com</Obs>
     <BtnCadastro pequeno>Facebook</BtnCadastro>

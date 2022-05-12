@@ -23,7 +23,8 @@ const ProfileImage = styled.img`
 `;
 
 const PersonalInfo = styled.div`
-  margin-top:-15px;
+  margin-top:-5px;
+
   background:black;
   color: white;
   width:100%;
@@ -136,6 +137,23 @@ const Btn = styled.button`
 
 `
 
+const VerValoresBtn = styled.button`
+  position:fixed;
+  bottom:0px;
+  width:100%;
+  height:50px;
+  background: black;
+  color: white;
+  font-size:18px;
+  font-weight: bold;
+`
+
+const SimpleLink = styled.a`
+text-decoration: none;
+color: white;
+
+
+`
 
 
 
@@ -153,6 +171,23 @@ class Home extends React.Component {
       sobre:false,
       avaliacao:false,
     };
+
+    
+  }
+   midiaOn = () =>{
+     console.log("MIDIA")
+    this.setState({midia:true,sobre:false,avaliacao:false})
+  }
+
+  sobreOn= () =>{
+    console.log("Sobre")
+    this.setState({midia:false,sobre:true,avaliacao:false})
+  }
+
+  avaliacaoOn= () =>{
+    console.log("Avalizao")
+    this.setState({midia:false,sobre:false,avaliacao:true})
+    
   }
   render() {
     return<> 
@@ -189,12 +224,26 @@ class Home extends React.Component {
       </StatsArea>
 
       <BtnArea>
-        {this.state.midia ?<Btn active>Mídia {this.state.midia}</Btn>:<Btn>Mídia {this.state.midia}</Btn> }
-        {this.state.sobre ?<Btn active>Mídia {this.state.sobre}</Btn>:<Btn>Mídia {this.state.sobre}</Btn> }
-        {this.state.avaliacao ?<Btn active>Mídia {this.state.avaliacao}</Btn>:<Btn>Mídia {this.state.avaliacao}</Btn> }
+        {this.state.midia ?<Btn active onClick={() => this.midiaOn()}>Mídia </Btn>:<Btn onClick={this.midiaOn}>Mídia</Btn> }
+        {this.state.sobre ?<Btn active onClick={() =>this.sobreOn()}>Sobre </Btn>:<Btn onClick={this.sobreOn}>Sobre</Btn> }
+        {this.state.avaliacao ?<Btn active onClick={() =>this.avaliacaoOn()}>Avaliação </Btn>:<Btn onClick={this.avaliacaoOn}>Avaliação</Btn> }
+
       </BtnArea>
 
-      
+
+      {
+        this.state.midia ? <p>MIDIA</p>:<></>
+      }
+
+      {
+        this.state.sobre ? <p>Sobre</p>:<></>
+      }
+
+      {
+        this.state.avaliacao ? <p>AVALIACAO</p>:<></>
+      }
+
+      <VerValoresBtn><SimpleLink href='/planos'>Ver planos e valores</SimpleLink></VerValoresBtn>
     
     
     
