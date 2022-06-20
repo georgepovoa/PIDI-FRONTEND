@@ -6,7 +6,7 @@ const Logo = styled.img`
   width : 100%;
   height : 30%;
   margin-bottom:25px;
-
+  
 `;
 
 const Title = styled.h1`
@@ -42,7 +42,7 @@ const BtnCadastro = styled.button`
   width : ${props => props.pequeno ? "35%" : "48%"};
   padding-top:10px;
   padding-bottom : 10px;
-  
+  text-decooration:none;
   
 `;
 
@@ -65,7 +65,7 @@ class Login extends React.Component {
     <Title> Login </Title>
     <InputBox placeholder='Usuário/E-mail'></InputBox>
     <InputBox type="password" placeholder='Senha'></InputBox>
-    <BtnCadastro preto>Entrar</BtnCadastro>
+    <a href='/'><BtnCadastro preto>Entrar</BtnCadastro></a>
     <Obs>Ainda não possui conta? <Link href='/cadastro'>Criar agora !</Link></Obs>
     <Obs>Ou</Obs>
     <Obs>Entrar com</Obs>

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import profile from './imgs/profile.png'
 
 const BtnPerfil = styled.button`
   
@@ -77,29 +76,25 @@ color: black;
 
 
 
-class Perfil extends React.Component {
+class Report extends React.Component {
   render() {
     return <>
     <Background>
-    <PerfilHeader>
-    <PerfilImg src={profile}></PerfilImg>
-    <Title>Prof. Pedro</Title>
-    
-
-
-    </PerfilHeader>
-    <SubTitle>@Katiness</SubTitle>
-    <BtnPerfil verde> <A href = "/alunos">Ver alunos</A></BtnPerfil>
-    <BtnPerfil><A href = "/editarPerfil">Editar perfil profissional </A></BtnPerfil>
-    <BtnPerfil verde><A href = "/financeiro"> Financeiro </A></BtnPerfil>
-    <BtnPerfil><A href = "/dadosStats">Dados e estastísticas</A></BtnPerfil>
+    <h1>Report</h1>
+    <p>Nome : </p>
+    <input placeholder='Nome do usuário à ser reportado'></input>
+    <p>Categoria de Report : </p>
+    <select name="report" id="report">
+      <option value="Conduta inadequada">Conduta inadequada</option>
+      <option value="Financeira">Financeira</option>
+      <option value="QuebraDeContrato">Quebra de contrato</option>
+    </select>
     <br></br>
     <br></br>
-    <BtnPerfil vermelho><A href = "/report"> Reportar um acontecimento</A></BtnPerfil>
-    <BtnPerfil vermelho> <A href = "/">Desativar minha conta</A></BtnPerfil>
+    <textarea placeholder='Dê mais detalhes por favor' rows="4" cols="50"></textarea>
     </Background>
     </>
   }
 }
 
-export default Perfil;
+export default Report;

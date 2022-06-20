@@ -1,79 +1,83 @@
 import React from 'react';
 import styled from 'styled-components';
-import arrow from './imgs/arrow.png'
+import arrow from './imgs/arrow.png';
+import { Box, Flex, Text, Center, FormControl, FormLabel, Switch,
+  Button} from "@chakra-ui/react";
+import { ChakraProvider } from '@chakra-ui/react';
 
-
-
-const BtnPerfil = styled.button`
-background:none;
-border:none;
-`;
-
-const DivBtn = styled.div`
-    text-align:center;
-    width: 50%;
-    height:100px;
-    background-color: ${props => props.vermelho ? "red" : props => props.azul?"blue":"#00000"};
-    margin:35px;
-
-`;
-
-const Title = styled.h1`
-  font-size: 2em;
-  text-align: center;
-
-  color: black;
-  margin-bottom:12px;
-  margin-top : 5%;
-  margin-left : 12px
-`;
-
-const Back = styled.img`
-position: fixed;
-top :75px;
-left:7px;
-width: 30px;
-height: 30px;
-border-width:1px;
-border-style:solid;
-border-radius:50%;
-padding:3px;
-`;
-const BigDiv = styled.div`
-
-display:flex;
-flex-direction : column;
-align-items: center;
-`
-const Grande = styled.h1`
-
-margin:auto;
-`
-
-const Pequeno = styled.p`
-
-margin:auto;
-`
 
 class Planos extends React.Component {
   render() {
     return <>
-    <a href='/'><Back src={arrow}></Back></a>
-    <Title>Pagamentos</Title>
-    <BigDiv >
-    <DivBtn vermelho>
-    <BtnPerfil><Grande>2X por semana</Grande><br></br> <Pequeno>pequeno</Pequeno> </BtnPerfil>
-    </DivBtn>
+      <ChakraProvider>
+        <Flex direction={"column"} align="center" justify="center" gap={45}>
+        
+          <Box boxShadow='dark-lg'
+           p='6' 
+           rounded='md' 
+           bg='tomato' 
+           textAlign='center' 
+           mt={35}
+           _hover={{ bg: "#f5492a" }}
+          _focus={{ boxShadow: "outline" }}
+          
+           >
+            
+            <Text fontSize="4xl" fontWeight={1000}>2X Semana</Text>
+            <Text >R$ 240,00 / mês</Text>
+          </Box>
+          
 
-    <DivBtn azul>
-    <BtnPerfil>2X por semana</BtnPerfil>
-    </DivBtn>
+          <Box boxShadow='dark-lg'
+           p='6'
+            rounded='md'
+             bg='white' 
+             textAlign='center'
+              mt={35}
+              _hover={{ bg: "lightgray" }}
+          _focus={{ boxShadow: "outline" }}
+          
+              >
+            <Text fontSize="4xl" fontWeight={1000}>3X Semana</Text>
+            <Text >R$ 300,00 / mês</Text>
+          </Box>
 
-    <DivBtn>
-    <BtnPerfil>2X por semana</BtnPerfil>
-    </DivBtn>
-    </BigDiv>
-    
+          <Box boxShadow='dark-lg'
+           p='6' 
+           rounded='md' 
+           bg='#5FD068' 
+           textAlign='center' 
+           mt={35}
+           _hover={{ bg: "#33cc3f" }}
+          _focus={{ boxShadow: "outline" }}
+          >
+            <Text fontSize="4xl" fontWeight={1000}>5X Semana</Text>
+            <Text >R$ 450,00 / mês</Text>
+          </Box>
+          <Box  
+          boxShadow='dark-lg'
+           p='6' 
+           rounded='md'
+            bg='#30BFFF' 
+            textAlign='center'
+             mt={35}
+             
+             >
+          <FormControl display='flex' alignItems='center'>
+            <FormLabel mb='0'>
+              Enable email alerts?
+            </FormLabel>
+            <Switch id='email-alerts' size='lg'/>
+          </FormControl>
+
+          </Box>
+          <Box>
+          <Button colorScheme='blue' >Conversar com o Personal!</Button>
+          </Box>
+
+
+        </Flex>
+      </ChakraProvider>
     </>;
   }
 }
