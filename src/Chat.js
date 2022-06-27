@@ -8,7 +8,7 @@ function ChatBox(props){
   return<>
   <ChakraProvider>
   <a href='/chat/user'>
-  <Box width={"100%"} height = "80px" bg="tomato" display="flex">
+  <Box width={"100%"} height = "80px" bg="#47B5FF" display="flex" borderBottom='1px'>
 
       <Flex align="center" justify="center"></Flex>
     <Image

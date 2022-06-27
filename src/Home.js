@@ -68,6 +68,14 @@ const ProfileImage = styled.img`
   width:100%;
   height : 75%;
   margin:0;
+  @media (min-width: 768px) {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+    min-width:413px;
+    min-height:275px;
+  }
 `;
 
 const PersonalInfo = styled.div`
@@ -208,6 +216,11 @@ const MediaImage = styled.img`
 
   margin:7px;
   width:33%;
+  @media (min-width: 768px) {
+    width:15%;
+    height:15%;
+
+  }
 
 
   
@@ -247,6 +260,7 @@ const AvaliacaoBloco = styled.div`
   overflow-wrap: break-word;
   margin: auto;
   margin-bottom: 35px;
+  padding:8px;
 
 `
 
@@ -383,7 +397,8 @@ class Home extends React.Component {
     
     return <>
       <a href='/'><Back src={arrow}></Back></a>
-      <ProfileImage src={personal}></ProfileImage>
+      
+      <ProfileImage src={personal} ></ProfileImage>
       <PersonalInfo>
         <Title>Prof. Pedro</Title>
         <SubTitle>@kalist</SubTitle>

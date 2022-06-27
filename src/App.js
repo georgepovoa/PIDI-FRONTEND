@@ -2,6 +2,7 @@ import './App.css';
 import logo from "./imgs/99logo.png";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom' ;
 import { ChakraProvider } from '@chakra-ui/react'
+import Aulas_tela from './aulas';
 
 import Master from "./Master";
 import Ajustes from "./Ajustes";
@@ -19,7 +20,8 @@ import DadosStats from './perfil-pages/Dados';
 import EditarPerfil from './perfil-pages/EditarPerfil';
 import Financeiro from './perfil-pages/Financeiro';
 import Report from './perfil-pages/Report';
-import InsideChat from './chat/InsideChat'
+import InsideChat from './chat/InsideChat';
+import List_reports from './List_reports';
 
 const Alink = styled.a`
   color : white;
@@ -34,13 +36,6 @@ const Logozin = styled.img`
   width:80px;
   height:25px;
 `;
-
-
-
-
-
-
-
 
 
 function App() {
@@ -61,7 +56,8 @@ function App() {
       <li><Alink href='/login'>Login</Alink></li>
       <li><Alink href='/cadastro'>Cadastro</Alink></li>
       <li><Alink href='/chat'>Chat</Alink></li>
-      <li><Alink href='#' inativo>Area do Personal</Alink></li>
+      <li><Alink href='/reports_tela'>Área de Admin.</Alink></li>
+      <li><Alink href='/tela_aulas'>Area Aulas</Alink></li>
       <li><Alink href='#' inativo>Configurações</Alink></li>
       <li><Alink href='#' inativo>Sobre</Alink></li>
     </ul>
@@ -88,7 +84,10 @@ function App() {
           <Route exact path="/dadosStats" element={<DadosStats/>}/>
           <Route exact path="/editarPerfil" element={<EditarPerfil/>}/>
           <Route exact path="/financeiro" element={<Financeiro/>}/>
+          <Route exact path='/reports_tela' element = {<List_reports/>}/>
           <Route exact path="/report" element={<Report/>}/>
+          <Route exact path="/tela_aulas" element={<Aulas_tela/>}/>
+
         </Routes>
     </Router>
     </>

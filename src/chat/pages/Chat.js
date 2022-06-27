@@ -9,7 +9,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([
     { from: "computer", text: "Olá, Estou interessado em tal aula, tudo bem ? " },
     { from: "me", text: "Olá" },
-    { from: "me", text: "Você tem quais dias disponível ?" },
+    { from: "me", text: "Você tem quais dias disponíveis ?" },
     {
       from: "computer",
       text:

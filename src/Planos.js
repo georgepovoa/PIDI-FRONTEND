@@ -72,7 +72,7 @@ class Planos extends React.Component {
 
           </Box>
           <Box>
-          <Button colorScheme='blue' >Conversar com o Personal!</Button>
+          <Button colorScheme='blue' as={'a'} href="/chat/user">Conversar com o Personal!</Button>
           </Box>
 
 
