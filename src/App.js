@@ -22,6 +22,13 @@ import Financeiro from './perfil-pages/Financeiro';
 import Report from './perfil-pages/Report';
 import InsideChat from './chat/InsideChat';
 import List_reports from './List_reports';
+import CompletarCadastro from './completarCadastro';
+import { useEffect, useState } from 'react';
+import Cookies from "universal-cookie";
+import Propostas from './propostas';
+
+const cookies = new Cookies();
+
 
 const Alink = styled.a`
   color : white;
@@ -39,6 +46,13 @@ const Logozin = styled.img`
 
 
 function App() {
+
+  const logout = () => {
+    // destroy the cookie
+    cookies.remove("TOKEN", { path: "/" });
+  }
+
+  const [user,setUser] = useState()
   return (<>
   
   
@@ -46,6 +60,7 @@ function App() {
     <div>
       <a href='/'><Logozin src={logo}></Logozin></a>
     </div>
+    <p>{user?.userEmail}</p>
     <input id="menu-toggle" type="checkbox" />
     <label class='menu-button-container' for="menu-toggle">
     <div class='menu-button'></div>
@@ -55,11 +70,14 @@ function App() {
       <li><Alink href='/perfil'>Perfil</Alink></li>
       <li><Alink href='/login'>Login</Alink></li>
       <li><Alink href='/cadastro'>Cadastro</Alink></li>
+      <li><Alink href='/completarcadastro'>Completar cadastro</Alink></li>
       <li><Alink href='/chat'>Chat</Alink></li>
       <li><Alink href='/reports_tela'>Área de Admin.</Alink></li>
       <li><Alink href='/tela_aulas'>Area Aulas</Alink></li>
+      <li><Alink href='/propostas'>Propostas</Alink></li>
       <li><Alink href='#' inativo>Configurações</Alink></li>
       <li><Alink href='#' inativo>Sobre</Alink></li>
+      <li><Alink href='/login' onClick={() => logout()}>Logout</Alink></li>
     </ul>
   </section>
 
@@ -67,8 +85,8 @@ function App() {
     
     <Router>
         <Routes>
-          <Route exact path="/" element={<Home/>}/>
-          <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/" element={<Home  setUser = {setUser}/>}/>
+          <Route exact path="/login" element={<Login setUser = {setUser}/>}/>
           <Route exact path="/cadastro" element={<Cadastro/>}/>
           <Route exact path="/master" element={<Master/>}/>
           <Route exact path="/ajustes" element={<Ajustes/>}/>
@@ -77,9 +95,8 @@ function App() {
           <Route exact path="/contrato" element={<Contrato/>}/>
           <Route exact path="/chat" element={<Chat/>}/>
           <Route exact path="/chat/user" element={<InsideChat/>}/>
-          <Route exact path="/planos" element={<Planos/>}/>
-          
-
+          <Route exact path="/planos/:id" element={<Planos/>}/>
+          <Route exact path="/completarcadastro" element={<CompletarCadastro user= {user}/>}/>
           <Route exact path="/alunos" element={<Alunos/>}/>
           <Route exact path="/dadosStats" element={<DadosStats/>}/>
           <Route exact path="/editarPerfil" element={<EditarPerfil/>}/>
@@ -87,6 +104,7 @@ function App() {
           <Route exact path='/reports_tela' element = {<List_reports/>}/>
           <Route exact path="/report" element={<Report/>}/>
           <Route exact path="/tela_aulas" element={<Aulas_tela/>}/>
+          <Route exact path="/propostas" element={<Propostas></Propostas>}/>
 
         </Routes>
     </Router>

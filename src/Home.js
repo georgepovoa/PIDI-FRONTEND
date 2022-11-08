@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import arrow from './imgs/arrow.png';
 import personal from './imgs/personal.jpg';
 import star from './imgs/star.png';
 import axios from 'axios';
+import Cookies from "universal-cookie";
+import api from './api/api';
+const cookies = new Cookies();
 
 const lista_avaliação = [
   {
@@ -43,14 +45,6 @@ const lista_avaliação = [
     descricao: "LoremLoremLoremLoremLoremLoremLoremLoremLoremLoremLorem LoremLoremLoremLoremLorem"
   },
 ]
-var total_estrelas = 0
-
-lista_avaliação.map(i => {
-  total_estrelas += i.estrelas
-
-})
-
-const media_estrelas = total_estrelas / lista_avaliação.length
 
 const Back = styled.img`
   position: fixed;
@@ -188,20 +182,21 @@ const Btn = styled.button`
   background-color: ${props => props.active ? "#1E8AD3" : "none"};
   border-radius : 20px;
   width:28%;
-  
-
-
 `
+
+const FlexBtnArea = styled.div`
+display:flex;`
 
 const VerValoresBtn = styled.button`
   position:fixed;
   bottom:0px;
-  width:100%;
+  width:50%;
   height:50px;
   background: black;
   color: white;
   font-size:18px;
   font-weight: bold;
+  ${props => props.left ? "left:0px;" : "right:0px;"}
 `
 
 const SimpleLink = styled.a`
@@ -292,8 +287,12 @@ function MediaScreen(props) {
 
 
 function SobreScreen(props) {
-  const espec_list = ["Artes marciais", "Academia", "cross-fit", "LPO", "Artes marciais", "Academia", "cross-fit", "LPO"]
-  const loc_list = ["Taguatinga", "Sudoeste", "Guará", "ASA SUL", "Taguatinga", "Sudoeste", "Guará", "ASA SUL"]
+  var espec_list = ["Artes marciais", "Academia", "APRESENTACAO PIDI IV", "LPO", "Artes marciais", "Academia", "cross-fit", "LPO"]
+  var loc_list = ["Taguatinga", "Sudoeste", "Guará", "ASA SUL", "Taguatinga", "Sudoeste", "Guará", "ASA SUL"]
+  
+  if (props.personalInfo !== undefined){
+    espec_list = props.personalInfo.preferenciasExplicitas
+  }
   return <ContainerSobre>
 
     <SubTitle>Especializações</SubTitle>
@@ -366,10 +365,40 @@ class Home extends React.Component {
       midia: true,
       sobre: false,
       avaliacao: false,
+      personalArray:[],
+      user : {userEmail:""}
     };
 
 
   }
+
+  async componentDidMount()
+  {
+    const token = cookies.get("TOKEN")
+    const configuration = {
+      method: "get",
+      url: "http://localhost:3000/auth-endpoint",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await api.get("/personal")
+    const response_user =await axios(configuration)
+    console.log(response_user.data)
+    
+
+    console.log(response)
+
+    this.setState({
+      personalArray:response.data,
+      user:response_user.data,
+      personalIndex:0
+
+    })
+    
+
+  }
+
   midiaOn = () => {
     console.log("MIDIA")
     this.setState({ midia: true, sobre: false, avaliacao: false })
@@ -385,23 +414,39 @@ class Home extends React.Component {
     this.setState({ midia: false, sobre: false, avaliacao: true })
 
   }
-  render() {
 
+  alterarPersonal = () =>{
+    if (this.state.personalIndex < this.state.personalArray.length -1){
+      this.setState({personalIndex:this.state.personalIndex+=1})
+    }
+  }
+  render() {
+    this.props.setUser(this.state.user)
+
+    var media_estrelas = 0
+    if(this.state.personalArray !== undefined ){
+      //media_estrelas = this.state.personalArray[this.state.personalIndex].rating
+      //console.log(this.state.personalArray[this.state.personalIndex].rating, "MEDIA ESTERALSDLAS")
+      media_estrelas =this.state.personalArray[this.state.personalIndex]?.rating
+    }
+    console.log(media_estrelas,"media estrelas")
     var list_estrelas = []
     for (let index = 0; index < media_estrelas; index++) {
       list_estrelas.push(<ReviewStar src={star}></ReviewStar>);
 
     }
 
-
+    const token = cookies.get("TOKEN")
     
+    if(token){
+
     return <>
-      <a href='/'><Back src={arrow}></Back></a>
+    {/* {token ? <h1>Com auth</h1>:<h1>Sem Auth</h1>} */}
       
       <ProfileImage src={personal} ></ProfileImage>
       <PersonalInfo>
-        <Title>Prof. Pedro</Title>
-        <SubTitle>@kalist</SubTitle>
+        <Title>{this.state.personalArray[this.state.personalIndex]?.user.nome}</Title>
+        <SubTitle>{this.state.personalArray[this.state.personalIndex]?.user.instagram}</SubTitle>
         <ReviewArea>
           {list_estrelas}
           <ReviewNumber>{media_estrelas}</ReviewNumber>
@@ -419,13 +464,11 @@ class Home extends React.Component {
           <StatText bold>12</StatText>
           <StatText >Alunos</StatText>
         </Stat>
-        <Stat>
-          <StatText bold>23</StatText>
-          <StatText >Seguidores</StatText>
-        </Stat>
+
       </StatsArea>
 
       <BtnArea>
+
         {this.state.midia ? <Btn active onClick={() => this.midiaOn()}>Mídia </Btn> : <Btn onClick={this.midiaOn}>Mídia</Btn>}
         {this.state.sobre ? <Btn active onClick={() => this.sobreOn()}>Sobre </Btn> : <Btn onClick={this.sobreOn}>Sobre</Btn>}
         {this.state.avaliacao ? <Btn active onClick={() => this.avaliacaoOn()}>Avaliação </Btn> : <Btn onClick={this.avaliacaoOn}>Avaliação</Btn>}
@@ -438,19 +481,29 @@ class Home extends React.Component {
       }
 
       {
-        this.state.sobre ? <SobreScreen></SobreScreen> : <></>
+        this.state.sobre ? <SobreScreen personalInfo = {this.state.personalArray[this.state.personalIndex]}></SobreScreen> : <></>
       }
 
       {
         this.state.avaliacao ? <AvaliacaoScreen></AvaliacaoScreen> : <></>
       }
 
-      <VerValoresBtn><SimpleLink href='/planos'>Ver planos e valores</SimpleLink></VerValoresBtn>
-
+      <VerValoresBtn left>
+        <SimpleLink href={'/planos/'+this.state.personalArray[this.state.personalIndex]?.idPersonal}>Ver planos e valores</SimpleLink>
+      </VerValoresBtn><VerValoresBtn>
+        <SimpleLink onClick={()=>this.alterarPersonal()}>Ver próximo personal</SimpleLink>
+      </VerValoresBtn>
 
 
 
     </>
+    }
+    else{
+      return <>
+       <p>Por favor faça o login </p>
+       <a href='/login'>Login</a>
+      </>
+    }
   }
 }
 
