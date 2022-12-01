@@ -5,6 +5,11 @@ import star from './imgs/star.png';
 import axios from 'axios';
 import Cookies from "universal-cookie";
 import api from './api/api';
+import getToken from './api/auth/getToken';
+
+import media from './imgs/gallery.png'
+
+
 const cookies = new Cookies();
 
 const lista_avaliação = [
@@ -97,13 +102,7 @@ const Title = styled.h1`
 
 `;
 
-const SubTitle = styled.h2`
-  font-size: 1em;
 
-  color: #00000;
-  opacity:0.6;
-  
-`;
 
 const ReviewStar = styled.img`
 
@@ -148,15 +147,6 @@ const Stat = styled.div`
   
 
 `;
-
-const StatText = styled.p`
-
-  text-align:center;
-  font-size: ${props => props.bold ? "24px" : "16px"};
-  font-weight: ${props => props.bold ? 1000 : 400};
-  margin-bottom:0px;
-
-`
 
 const BtnArea = styled.div`
 
@@ -259,6 +249,196 @@ const AvaliacaoBloco = styled.div`
 
 `
 
+const Container = styled.div`
+
+width:100%;
+background: linear-gradient(180deg, rgba(15, 12, 41) 0%, rgba(48, 43, 99) 45.14%, #24243E 100%);
+height:100%;
+position:absolute;
+display:flex;
+`
+
+const Card = styled.div
+  `
+position: absolute;
+width: 90%;
+height: 80%;
+margin-left:5%;
+margin-top:2%;
+overflow-y:auto;
+
+
+background: linear-gradient(180deg, rgba(62, 81, 252, 0.22) 0%, rgba(62, 81, 252, 0.0462) 100%);
+backdrop-filter: blur(2px);
+
+/* Note: backdrop-filter has minimal browser support */
+border-radius: 15px;
+`
+
+const CardHeader = styled.div
+  `
+position: absolute;
+width: 100%;
+height: 145px;
+min-height:145px;
+top: 0px;
+
+background: linear-gradient(180deg, rgba(62, 81, 252, 0.22) 0%, rgba(62, 81, 252, 0.0462) 100%);
+backdrop-filter: blur(2px);
+
+/* Note: backdrop-filter has minimal browser support */
+border-radius: 15px;
+
+
+`
+
+const CardHeaderImage = styled.img
+  `
+
+position: absolute;
+width:115px;
+height: 115px;
+margin-top:15px;
+margin-left:15px;
+
+border-radius:50%;
+
+`
+
+const CardHeaderInfoDiv = styled.div`
+position: absolute;
+width: 50%;
+height: 90%;
+left: 45%;
+top: 5%;
+display:flex;
+flex-direction:column;
+justify-content: space-around;
+
+`
+
+const CardHeaderInfoP = styled.p`
+font-size:15px;
+color:white;
+margin:0px;
+padding:0px;
+font-family: 'Inter';
+
+`
+
+const ChooseSection = styled.div`
+position:absolute;
+width:  85%;
+height: 54px;
+top:145px;
+margin-left:7.5%;
+background: rgba(217, 217, 217, 0.49);
+border-radius: 50px;
+display:flex;
+justify-content: space-evenly;
+
+`
+
+const ChooseSectionImg = styled.img`
+width: 25px;
+height: 25.95px;
+margin:10px;
+margin-top:15px;
+
+`
+
+const ContentMediaSection = styled.div`
+width:100%;
+height:66%;
+position:absolute;
+top:33%;
+display:flex;
+flex-wrap:wrap;
+justify-content: space-around;
+overflow-y:auto;
+
+`
+
+
+
+
+const MediaSectionIMG = styled.img`
+width: 82px;
+height: 134px;
+background:white;
+margin:15px;
+`
+
+const ContentInfoSection = styled.div`
+width:100%;
+height:66%;
+position:absolute;
+top:40%;
+overflow-y:auto;
+
+`
+
+const ContentInfoTitle = styled.h1`
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+text-align: center;
+color:white;
+
+`
+
+const ContentInfoP = styled.p`
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 17px;
+color:white;
+
+margin-left:30px;
+`
+
+const ContentRatingSection = styled.div`
+width:100%;
+height:66%;
+position:absolute;
+top:40%;
+overflow-y:auto;
+
+`
+
+const AvaliacaoContainer = styled.div`
+
+
+  border-radius: 20px;
+  border: solid 1px black;
+  width:85%;
+  overflow-wrap: break-word;
+  margin: auto;
+  margin-bottom: 35px;
+  padding:8px;
+
+`
+
+const SubTitle = styled.h2`
+  font-size: 1em;
+
+  color: white;
+  opacity:0.6;
+  
+`;
+
+const StatText = styled.p`
+
+  text-align:center;
+  font-size: ${props => props.bold ? "24px" : "16px"};
+  font-weight: ${props => props.bold ? 1000 : 400};
+  margin-bottom:0px;
+  color:white;
+
+`
 
 
 
@@ -277,7 +457,7 @@ function MediaScreen(props) {
 
 
     {media_array.map(i => {
-      return <MediaImage src={`https://picsum.photos/200/300?random=${i}`}></MediaImage>
+      return <MediaImage src={`https://picsum.photos/200/300?random=${i}`} key={i}></MediaImage>
     })}
 
 
@@ -285,54 +465,24 @@ function MediaScreen(props) {
   </ContainerMedia>;
 }
 
-
-function SobreScreen(props) {
-  var espec_list = ["Artes marciais", "Academia", "APRESENTACAO PIDI IV", "LPO", "Artes marciais", "Academia", "cross-fit", "LPO"]
-  var loc_list = ["Taguatinga", "Sudoeste", "Guará", "ASA SUL", "Taguatinga", "Sudoeste", "Guará", "ASA SUL"]
-  
-  if (props.personalInfo !== undefined){
-    espec_list = props.personalInfo.preferenciasExplicitas
-  }
-  return <ContainerSobre>
-
-    <SubTitle>Especializações</SubTitle>
-    {espec_list.map(i => {
-      return <StatText>{i}</StatText>
-    })}
-    <hr></hr>
-    <SubTitle>Locais de atendimento</SubTitle>
-    {loc_list.map(i => {
-      return <StatText>{i}</StatText>
-    })}
-    <br></br>
-    <br></br>
-    <br></br>
-    <br></br>
-
-
-
-  </ContainerSobre>
-}
-
-
 function AvaliacaoScreen(props) {
 
   return <ContainerAvaliacao>
 
-<br></br>
-    
+    <br></br>
+
     <br></br>
 
 
     {lista_avaliação.map(i => {
       var list_estrelas = []
       for (let index = 0; index < i.estrelas; index++) {
-        list_estrelas.push(<ReviewStar src={star}></ReviewStar>);
+        list_estrelas.push(<ReviewStar src={star} key={i}></ReviewStar>);
 
       }
       return <AvaliacaoBloco>
 
-        
+
         <SubTitle>Nome </SubTitle>
         <StatText>{i.nome}</StatText>
         <br></br>
@@ -365,38 +515,63 @@ class Home extends React.Component {
       midia: true,
       sobre: false,
       avaliacao: false,
-      personalArray:[],
-      user : {userEmail:""}
+      personalArray: [],
+      user: { userEmail: "" },
+      mediaArea: true,
+      infoArea: false,
+      ratingsArea: false
     };
 
 
   }
 
-  async componentDidMount()
-  {
-    const token = cookies.get("TOKEN")
-    const configuration = {
-      method: "get",
-      url: "http://localhost:3000/auth-endpoint",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+  async componentDidMount() {
+    const response_user = await getToken()
     const response = await api.get("/personal")
-    const response_user =await axios(configuration)
     console.log(response_user.data)
-    
+
 
     console.log(response)
 
     this.setState({
-      personalArray:response.data,
-      user:response_user.data,
-      personalIndex:0
+      personalArray: response.data,
+      user: response_user.data,
+      personalIndex: 0
 
     })
-    
+    this.props.setUser(this.state.user)
 
+  }
+
+  handleMediaClick= () =>{
+
+    this.setState(
+      {
+        mediaArea: true,
+        infoArea: false,
+        ratingsArea: false
+      }
+    )
+  }
+
+  handleInfoClick= () =>{
+    this.setState(
+      {
+        mediaArea: false,
+        infoArea: true,
+        ratingsArea: false
+      }
+    )
+  }
+
+  handleRatingClick = () =>{
+    this.setState(
+      {
+        mediaArea: false,
+        infoArea: false,
+        ratingsArea: true
+      }
+    )
   }
 
   midiaOn = () => {
@@ -415,21 +590,21 @@ class Home extends React.Component {
 
   }
 
-  alterarPersonal = () =>{
-    if (this.state.personalIndex < this.state.personalArray.length -1){
-      this.setState({personalIndex:this.state.personalIndex+=1})
+  alterarPersonal = () => {
+    if (this.state.personalIndex < this.state.personalArray.length - 1) {
+      this.setState({ personalIndex: this.state.personalIndex += 1 })
     }
   }
   render() {
-    this.props.setUser(this.state.user)
+
 
     var media_estrelas = 0
-    if(this.state.personalArray !== undefined ){
+    if (this.state.personalArray !== undefined) {
       //media_estrelas = this.state.personalArray[this.state.personalIndex].rating
       //console.log(this.state.personalArray[this.state.personalIndex].rating, "MEDIA ESTERALSDLAS")
-      media_estrelas =this.state.personalArray[this.state.personalIndex]?.rating
+      media_estrelas = this.state.personalArray[this.state.personalIndex]?.rating
     }
-    console.log(media_estrelas,"media estrelas")
+    console.log(media_estrelas, "media estrelas")
     var list_estrelas = []
     for (let index = 0; index < media_estrelas; index++) {
       list_estrelas.push(<ReviewStar src={star}></ReviewStar>);
@@ -437,71 +612,90 @@ class Home extends React.Component {
     }
 
     const token = cookies.get("TOKEN")
-    
-    if(token){
+    console.log(this.state.personalArray)
+    if (token) {
 
-    return <>
-    {/* {token ? <h1>Com auth</h1>:<h1>Sem Auth</h1>} */}
-      
-      <ProfileImage src={personal} ></ProfileImage>
-      <PersonalInfo>
-        <Title>{this.state.personalArray[this.state.personalIndex]?.user.nome}</Title>
-        <SubTitle>{this.state.personalArray[this.state.personalIndex]?.user.instagram}</SubTitle>
-        <ReviewArea>
-          {list_estrelas}
-          <ReviewNumber>{media_estrelas}</ReviewNumber>
-        </ReviewArea>
-
-
-
-      </PersonalInfo>
-      <StatsArea>
-        <Stat>
-          <StatText bold>276</StatText>
-          <StatText >imagens</StatText>
-        </Stat>
-        <Stat>
-          <StatText bold>12</StatText>
-          <StatText >Alunos</StatText>
-        </Stat>
-
-      </StatsArea>
-
-      <BtnArea>
-
-        {this.state.midia ? <Btn active onClick={() => this.midiaOn()}>Mídia </Btn> : <Btn onClick={this.midiaOn}>Mídia</Btn>}
-        {this.state.sobre ? <Btn active onClick={() => this.sobreOn()}>Sobre </Btn> : <Btn onClick={this.sobreOn}>Sobre</Btn>}
-        {this.state.avaliacao ? <Btn active onClick={() => this.avaliacaoOn()}>Avaliação </Btn> : <Btn onClick={this.avaliacaoOn}>Avaliação</Btn>}
-
-      </BtnArea>
-
-
-      {
-        this.state.midia ? <MediaScreen></MediaScreen> : <></>
-      }
-
-      {
-        this.state.sobre ? <SobreScreen personalInfo = {this.state.personalArray[this.state.personalIndex]}></SobreScreen> : <></>
-      }
-
-      {
-        this.state.avaliacao ? <AvaliacaoScreen></AvaliacaoScreen> : <></>
-      }
-
-      <VerValoresBtn left>
-        <SimpleLink href={'/planos/'+this.state.personalArray[this.state.personalIndex]?.idPersonal}>Ver planos e valores</SimpleLink>
-      </VerValoresBtn><VerValoresBtn>
-        <SimpleLink onClick={()=>this.alterarPersonal()}>Ver próximo personal</SimpleLink>
-      </VerValoresBtn>
+      return <Container>
+        <Card>
+          {/* {token ? <h1>Com auth</h1>:<h1>Sem Auth</h1>} */}
+          <CardHeader>
+            <CardHeaderImage src="https://picsum.photos/200/300?random=1"></CardHeaderImage>
+            <CardHeaderInfoDiv>
+              <CardHeaderInfoP>Nome : {this.state.personalArray[this.state.personalIndex]?.user.nome}</CardHeaderInfoP>
+              <CardHeaderInfoP>instagram : @{this.state.personalArray[this.state.personalIndex]?.user.instagram}</CardHeaderInfoP>
+              <CardHeaderInfoP>Rating : {this.state.personalArray[this.state.personalIndex]?.rating}</CardHeaderInfoP>
+            </CardHeaderInfoDiv>
 
 
 
-    </>
+
+          </CardHeader>
+
+          <ChooseSection>
+            <ChooseSectionImg src={media} onClick={this.handleMediaClick}></ChooseSectionImg>
+            <ChooseSectionImg src={media} onClick={this.handleInfoClick}></ChooseSectionImg>
+            <ChooseSectionImg src={media} onClick={this.handleRatingClick}></ChooseSectionImg>
+
+          </ChooseSection>
+
+          {this.state.mediaArea ?
+            <ContentMediaSection>
+              <MediaSectionIMG src='https://picsum.photos/200/300?random=1'/>
+              <MediaSectionIMG src='https://picsum.photos/200/300?random=2'/>
+              <MediaSectionIMG src='https://picsum.photos/200/300?random=3'/>
+              <MediaSectionIMG src='https://picsum.photos/200/300?random=4'/>
+              <MediaSectionIMG src='https://picsum.photos/200/300?random=5'/>
+
+
+            </ContentMediaSection>
+            : <></>}
+
+
+          {this.state.infoArea ?
+            <ContentInfoSection>
+              <ContentInfoTitle>Especializações</ContentInfoTitle>
+              {this.state.personalArray[this.state.personalIndex]?.preferenciasExplicitas.map(i =>{
+                return(<ContentInfoP key= {i}>{i} </ContentInfoP>)
+              })}
+
+
+              <ContentInfoTitle>Locais de atendimento</ContentInfoTitle>
+
+              <ContentInfoP>Local 1 </ContentInfoP>
+              <ContentInfoP>Local 2 </ContentInfoP>
+              <ContentInfoP>Local 3 </ContentInfoP>
+              <ContentInfoP>Local 4 </ContentInfoP>
+
+
+            </ContentInfoSection> : <></>}
+          {this.state.ratingsArea ? <ContentRatingSection>
+            <AvaliacaoContainer>
+              <SubTitle>Nome </SubTitle>
+              <StatText>nome</StatText>
+              <br></br>
+              <SubTitle>Avaliacao  </SubTitle>
+              <StatText>4.5</StatText>
+              <br></br>
+              <SubTitle>Descricao</SubTitle>
+              <StatText>desc</StatText>
+            </AvaliacaoContainer>
+          </ContentRatingSection> : <></>}
+
+          
+
+
+        </Card>
+        <VerValoresBtn left>
+            <SimpleLink href={'/planos/' + this.state.personalArray[this.state.personalIndex]?.idPersonal}>Ver planos e valores</SimpleLink>
+          </VerValoresBtn><VerValoresBtn>
+            <SimpleLink onClick={() => this.alterarPersonal()}>Ver próximo personal</SimpleLink>
+          </VerValoresBtn>
+      </Container>
     }
-    else{
+    else {
       return <>
-       <p>Por favor faça o login </p>
-       <a href='/login'>Login</a>
+        <p>Por favor faça o login </p>
+        <a href='/login'>Login</a>
       </>
     }
   }

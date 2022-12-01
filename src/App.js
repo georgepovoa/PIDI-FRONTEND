@@ -1,31 +1,29 @@
 import './App.css';
 import logo from "./imgs/99logo.png";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom' ;
-import { ChakraProvider } from '@chakra-ui/react'
-import Aulas_tela from './aulas';
+import AulasTela from "./components/aulas/aulas"
 
-import Master from "./Master";
-import Ajustes from "./Ajustes";
-import Cadastro from "./Cadastro";
-import Chat from "./Chat";
-import Contrato from "./Contrato";
-import Login from "./Login";
-import Pagamentos from "./Pagamentos";
-import Perfil from "./Perfil";
+import Cadastro from './components/auth/cadastro/Cadastro'
+import Chat from "./components/chat/Chat";
+import Contrato from "./components/contrato/Contrato"
+import Login from "./components/auth/login/Login"
+import Perfil from "./components/perfil-pages/Perfil";
 import Home from './Home';
 import styled from 'styled-components';
-import Planos from './Planos';
-import Alunos from './perfil-pages/Alunos';
-import DadosStats from './perfil-pages/Dados';
-import EditarPerfil from './perfil-pages/EditarPerfil';
-import Financeiro from './perfil-pages/Financeiro';
-import Report from './perfil-pages/Report';
-import InsideChat from './chat/InsideChat';
-import List_reports from './List_reports';
-import CompletarCadastro from './completarCadastro';
-import { useEffect, useState } from 'react';
+import Planos from './components/planos/Planos';
+import Alunos from './components/perfil-pages/Alunos';
+import DadosStats from './components/perfil-pages/Dados';
+import EditarPerfil from './components/perfil-pages/EditarPerfil';
+import Financeiro from './components/perfil-pages/Financeiro';
+import Report from './components/perfil-pages/Report';
+import InsideChat from './components/chat/InsideChat';
+import ListReports from './components/reports/List_reports';
+import CompletarCadastro from './components/auth/cadastro/completarCadastro';
+import { useState } from 'react';
 import Cookies from "universal-cookie";
-import Propostas from './propostas';
+import Propostas from './components/propostas/propostas';
+import ContratoPage from './components/contrato/Contrato';
+import Temp from './temp';
 
 const cookies = new Cookies();
 
@@ -56,16 +54,16 @@ function App() {
   return (<>
   
   
-    <section class="top-nav">
+    <section className="top-nav">
     <div>
       <a href='/'><Logozin src={logo}></Logozin></a>
     </div>
     <p>{user?.userEmail}</p>
     <input id="menu-toggle" type="checkbox" />
-    <label class='menu-button-container' for="menu-toggle">
-    <div class='menu-button'></div>
+    <label className='menu-button-container' htmlFor="menu-toggle">
+    <div className='menu-button'></div>
   </label>
-    <ul class="menu">
+    <ul className="menu">
       <li><Alink href='/'>Principal</Alink></li>
       <li><Alink href='/perfil'>Perfil</Alink></li>
       <li><Alink href='/login'>Login</Alink></li>
@@ -75,6 +73,10 @@ function App() {
       <li><Alink href='/reports_tela'>Área de Admin.</Alink></li>
       <li><Alink href='/tela_aulas'>Area Aulas</Alink></li>
       <li><Alink href='/propostas'>Propostas</Alink></li>
+      <li><Alink href='/contratos'>Contratos</Alink></li>
+      <li><Alink href='/temp'>TEMP</Alink></li>
+
+
       <li><Alink href='#' inativo>Configurações</Alink></li>
       <li><Alink href='#' inativo>Sobre</Alink></li>
       <li><Alink href='/login' onClick={() => logout()}>Logout</Alink></li>
@@ -88,10 +90,7 @@ function App() {
           <Route exact path="/" element={<Home  setUser = {setUser}/>}/>
           <Route exact path="/login" element={<Login setUser = {setUser}/>}/>
           <Route exact path="/cadastro" element={<Cadastro/>}/>
-          <Route exact path="/master" element={<Master/>}/>
-          <Route exact path="/ajustes" element={<Ajustes/>}/>
           <Route exact path="/perfil" element={<Perfil/>}/>
-          <Route exact path="/pagamentos" element={<Pagamentos/>}/>
           <Route exact path="/contrato" element={<Contrato/>}/>
           <Route exact path="/chat" element={<Chat/>}/>
           <Route exact path="/chat/user" element={<InsideChat/>}/>
@@ -101,10 +100,13 @@ function App() {
           <Route exact path="/dadosStats" element={<DadosStats/>}/>
           <Route exact path="/editarPerfil" element={<EditarPerfil/>}/>
           <Route exact path="/financeiro" element={<Financeiro/>}/>
-          <Route exact path='/reports_tela' element = {<List_reports/>}/>
+          <Route exact path='/reports_tela' element = {<ListReports/>}/>
           <Route exact path="/report" element={<Report/>}/>
-          <Route exact path="/tela_aulas" element={<Aulas_tela/>}/>
+          <Route exact path="/tela_aulas" element={<AulasTela/>}/>
           <Route exact path="/propostas" element={<Propostas></Propostas>}/>
+          <Route exact path="/contratos" element={<ContratoPage></ContratoPage>}/>
+          <Route exact path="/temp" element={<Temp></Temp>}/>
+
 
         </Routes>
     </Router>
